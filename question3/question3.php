@@ -16,23 +16,13 @@ $productPrice = 0;
 
 $isSubmittedFinal = 0;
 
-if($_POST)
+if(isset($_POST["submit1"]))
 {
     $name = $_POST["name"];
 
     $city = $_POST["city"];
 
     $length = $_REQUEST["noOfProducts"];
-
-    $_SESSION["name"] = $name;
-
-    $_SESSION["city"] = $city;
-
-    $_SESSION["length"] = $length;
-
-    //$_POST["noOfProducts"] = $_SESSION["length"];
-
-    //$length = $_SESSION["length"];
 
     for($i = 0; $i < $length; $i++)
     {
@@ -58,7 +48,6 @@ if($_POST)
             
         ";
     }
-
     if($concat != "")
     {
         $concat.= "
@@ -68,16 +57,20 @@ if($_POST)
                 </div>
             </div>";
     }
+}
 
-    if($city == "cairo")
+if(isset($_POST["submit2"]))
+{
+
+    if($_POST["city"] == "cairo")
     {
         $cityFees = 0;
     }
-    else if($city == "giza")
+    else if($_POST["city"] == "giza")
     {
         $cityFees = 30;
     }
-    else if($city == "alex")
+    else if($_POST["city"] == "alex")
     {
         $cityFees = 50;
     }
@@ -86,24 +79,9 @@ if($_POST)
         $cityFees = 100;
     }
 
-    /*
-    $ourDivFinalResult .="
-    
-        <div class='p-2'>
-            <h5>your name: ".$name."</h5>
-            <h5>city: ".$city."</h5>
-            <h5>city fees: $cityFees pounds</h5>
-            <br>
-        
-    ";
-    */
-
-    // must be length not a static value such as (2)
-    for($x = 0; $x < $length; $x++)
+    for($x = 0; $x < $_POST["noOfProducts"]; $x++)
     {
-        if(isset($_POST["productName$x"]) && isset($_POST["productPrice$x"]) && isset($_POST["productQuantity$x"]))
-        {
-            if($_POST["productPrice$x"] < 1000)
+        if($_POST["productPrice$x"] < 1000)
             {
                 $productPrice = $_POST["productPrice$x"] * (1 -  (0 / 100));
                 $discount = 0;
@@ -138,37 +116,8 @@ if($_POST)
             <br>
             
             ";
-            /*
-            echo "product name: ". $_POST["productName$x"]. ", product price: ". $_POST["productPrice$x"]. " and product quantity: ". $_POST["productQuantity$x"] . " and total payment is " . ($_POST["productPrice$x"] * $_POST["productQuantity$x"] + $cityFees);
-            echo "<br>";
-            */
-        }
     }
-
     $ourDivFinalResult.= "</div>";
-}
-
-if(isset($_POST["submit2"]))
-{
-    /*
-    print_r($_POST);
-    die;
-    */
-    $concat = "";
-
-    $_SESSION["length"] = null;
-
-    $_SESSION["name"] = "";
-    $isSubmittedFinal = 1;
-}
-
-if(!isset($_POST["submit1"]))
-{
-    $_SESSION["name"] = ""; 
-
-    $_SESSION["city"] = "";
-
-    $_SESSION["length"] = null;
 }
 
 ?>
@@ -190,17 +139,17 @@ if(!isset($_POST["submit1"]))
         <div class="row">
             <div class="col-xl-12">
                 <div class="pb-5 pt-3">
-                    <input name="name" type="text" class="form-control" placeholder="your name" value="<?php if(isset($_SESSION["name"])){echo $_SESSION["name"];}   ?>">
+                    <input name="name" type="text" class="form-control" placeholder="your name" value="<?php if(isset($_POST["name"])){echo $_POST["name"];}   ?>">
                 </div>
             </div>
             <div class="col-xl-12">
                 <div class="pb-5 pt-3">
-                    <input name="city" type="text" class="form-control" placeholder="city" value="<?php if(isset($_SESSION["city"])){echo $_SESSION["city"];}   ?>">
+                    <input name="city" type="text" class="form-control" placeholder="city" value="<?php if(isset($_POST["city"])){echo $_POST["city"];}   ?>">
                 </div>
             </div>
             <div class="col-xl-12">
                 <div class="pb-5 pt-3">
-                    <input name="noOfProducts" type="number" class="form-control" placeholder="number of products" value="<?php if(isset($_SESSION["length"])){echo $_SESSION["length"];}   ?>">
+                    <input name="noOfProducts" type="number" class="form-control" placeholder="number of products" value="<?php if(isset($_POST["noOfProducts"])){echo $_POST["noOfProducts"];}   ?>">
                 </div>
             </div>
             <div class="col-xl-12">
@@ -213,20 +162,15 @@ if(!isset($_POST["submit1"]))
     </form>
 
     <div class="py-5"></div>
-   <!-- 
+    
     <div class="w-50 m-auto bg-primary text-center">
-        <?php  if(isset($ourDivFinalResult)){echo $ourDivFinalResult;}  ?>
-    </div>
-    -->
-
-    <div class="w-50 m-auto bg-primary text-center">
-        <?php   if($isSubmittedFinal == 1)
+        <?php if(isset($_POST["submit2"]))
         {
             echo "
             
             <div class='p-2'>
-            <h5>your name: ".$name."</h5>
-            <h5>city: ".$city."</h5>
+            <h5>your name: ".$_POST["name"]."</h5>
+            <h5>city: ".$_POST["city"]."</h5>
             <h5>city fees: $cityFees pounds</h5>
             <br>
             
