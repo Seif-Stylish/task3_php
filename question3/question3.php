@@ -143,8 +143,13 @@ if(isset($_POST["submit2"]))
                 </div>
             </div>
             <div class="col-xl-12">
-                <div class="pb-5 pt-3">
-                    <input name="city" type="text" class="form-control" placeholder="city" value="<?php if(isset($_POST["city"])){echo $_POST["city"];}   ?>">
+                <div class="py-3">
+                    <select name="city" class="w-100 p-2">
+                        <option value="cairo"<?php  if(isset($_POST["city"]) && $_POST["city"] == "cairo"){echo "selected";}?>>cairo</option>
+                        <option value="giza"<?php  if(isset($_POST["city"]) && $_POST["city"] == "giza"){echo "selected";}?>>giza</option>
+                        <option value="alex"<?php  if(isset($_POST["city"]) && $_POST["city"] == "alex"){echo "selected";}?>>alex</option>
+                        <option value="other"<?php  if(isset($_POST["city"]) && $_POST["city"] == "other"){echo "selected";}?>>other</option>
+                    </select>
                 </div>
             </div>
             <div class="col-xl-12">
